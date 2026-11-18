@@ -1,0 +1,39 @@
+# ---- Rust build artifacts ----
+/target/
+**/*.rs.bk
+*.pdb
+
+# ---- Model weights: NEVER commit ----
+# w600k_r50.onnx is ~166 MB (GitHub hard limit is 100 MB per file),
+# and InsightFace pretrained weights are licensed for non-commercial research.
+# Users download them with scripts/get-models.ps1
+/models/
+*.onnx
+*.zip
+
+# ---- Portable distribution output ----
+/dist/
+
+# ---- Generated reports / calibration ----
+/reports/
+calibration.json
+pairs.csv
+AzFaceVerify_*.txt
+AzFaceVerify_*.json
+azfaceverify-report.txt
+
+# ---- Local assets that are not part of the source ----
+*.log
+
+# ---- Editor / OS noise ----
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ---- Explicitly KEEP (do not ignore) ----
+!assets/icon.ico
+!scripts/*.ps1

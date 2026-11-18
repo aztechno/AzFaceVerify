@@ -1,0 +1,46 @@
+[package]
+name = "azfaceverify"
+version = "0.1.1"
+edition = "2021"
+authors = ["Azis Ichwan"]
+description = "AzFaceVerify - offline 1:1 face verification (Rust + ONNX Runtime + CUDA)"
+build = "build.rs"
+
+# Explicit bin target so the produced executable is literally "AzFaceVerify.exe".
+# autobins MUST be false, otherwise cargo reports a duplicate target for src/main.rs.
+autobins = false
+
+[[bin]]
+name = "AzFaceVerify"
+path = "src/main.rs"
+
+[dependencies]
+eframe = "0.29"
+egui = "0.29"
+# "ico" is required to decode icon.ico for the window/taskbar icon.
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "bmp", "webp", "ico"] }
+rfd = "0.15"
+arboard = "3"
+chrono = "0.4"
+# Pin both ort and ort-sys to rc.10 to prevent the API struct mismatch error.
+ort = { version = "=2.0.0-rc.10", features = ["cuda", "directml", "ndarray", "copy-dylibs"] }
+ort-sys = "=2.0.0-rc.10"
+ndarray = "0.16"
+nokhwa = { version = "0.10", features = ["input-msmf"] }
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[build-dependencies]
+# Embeds the icon + version info into the .exe file (Explorer icon).
+# If this ever fails to build, you can delete build.rs and this line:
+# the window/taskbar icon still works because it is loaded at runtime.
+winresource = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
